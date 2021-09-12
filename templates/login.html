@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Login
+{% endblock title %}
+
+{% block body %}
+{% include "navbar.html" %}
+    <div class="container-fluid h-custom">
+      <div class="row d-flex justify-content-center align-items-center mt-5">
+        <div class="col-md-9 col-lg-6 col-xl-5">
+          <img src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-login-form/draw2.png" class="img-fluid"
+            alt="Sample image">
+        </div>
+        <div class="card p-3 col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+          <div class="">
+          <form action="{% url 'login' %}" method="POST" class="">
+
+            {% csrf_token %}
+  
+            <div class="divider d-flex align-items-center my-4">
+              <p class="text-center h1 fw-bold mx-3 mb-0">Sign in</p>
+            </div>
+  
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+              <input type="text" id="id_username" class="form-control form-control-lg" name="username"
+                placeholder="Enter Username" autocomplete="on"/>
+              <label class="form-label" for="id_username">Username</label>
+            </div>
+  
+            <!-- Password input -->
+            <div class="form-outline mb-3">
+              <input type="password" id="id_password" class="form-control form-control-lg" name="password"
+                placeholder="Enter password" autocomplete="on"/>
+              <label class="form-label" for="id_password">Password</label>
+            </div>
+
+            {% if form.errors %}
+                <div class="alert alert-danger text-center py-1">
+                    <p>Username and Password didn't Match
+                   </p>
+                </div>
+            {% endif %}
+  
+            
+            <div class="text-center text-lg-start mt-4 pt-2">
+              <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock body %}

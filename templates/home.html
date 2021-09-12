@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home
+{% endblock title %}
+
+
+{% block body %}
+
+{% include "navbar.html" %}
+
+{% comment %} <section class=""> {% endcomment %}
+    <div class="container-fluid">
+      <div class="row d-flex justify-content-center align-items-center mt-md-5">
+        <div class="col-md-9 col-lg-6 col-xl-5">
+          <img src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-login-form/draw2.png" class="img-fluid"
+            alt="Sample image">
+        </div>
+        <div class="p-3 col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+          <form action="{% url 'student_login' %}" method="POST"class="card p-3">
+
+            {% csrf_token %}
+  
+            <div class="divider d-flex align-items-center my-4">
+              <p class="text-center h1 fw-bold mx-3 mb-0"></p>
+            </div>
+  
+            <!-- Email input -->
+              <label class="form-label" for="roll_number">Roll Number</label>
+            <div class="form-outline mb-4">
+              <input type="text" id="roll_number" class="form-control form-control-lg" name="roll_number"
+                placeholder="Enter Roll number" autocomplete="on"/>
+            </div>
+  
+            <!-- Password input -->
+              <label class="form-label" for="phone_id">Mobile Number</label>
+            <div class="form-outline mb-3">
+              <input type="password" id="phone_id" class="form-control form-control-lg" name="phone"
+                 autocomplete="on" />
+            </div>
+
+            {% if messages.errors %}
+                <div class="alert alert-danger text-center py-1">
+                    <p>Roll number and Phone Number didn't Match
+                   </p>
+                </div>
+            {% endif %}
+  
+            
+            <div class="text-center text-lg-start mt-4 pt-2">
+              <button type="submit" class="btn btn-primary btn-lg"
+                style="padding-left: 2.5rem; padding-right: 2.5rem;">Get Marks</button>
+              
+            </div>
+  
+          </form>
+        </div>
+      </div>
+    </div>
+{% comment %} </section> {% endcomment %}
+
+{% endblock body %}

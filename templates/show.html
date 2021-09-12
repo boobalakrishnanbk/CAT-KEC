@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home
+{% endblock title %}
+
+
+{% block body %}
+
+
+
+
+<section class="">
+      <div class="container-fluid ">
+        <div class="row d-flex justify-content-center align-items-center">
+          <div class="card mt-2 p-2 col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+            <form action="{% url 'fetch_marks' %}" method="post">
+            {% csrf_token %}
+              <div class="divider d-flex align-items-center my-4">
+                <p class="text-center h3 fw-bold mx-3 mb-0">Select Criteria</p>
+              </div>
+              <div class="row">
+                <!-- Semester input -->
+                <div class="form col-md-6">
+                  <label class="form-label" for="semester"
+                    >Select Semester</label
+                  >
+                  <select
+                    name="semester"
+                    id="semester"
+                    class="form-control"
+                    required
+                  >
+                    <option value="">Select</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                  </select>
+                </div>
+
+                <!-- Cat input -->
+                <div class="form col-md-6 ms-auto mb-3">
+                  <label class="form-label" for="cat">Select CAT/ESE</label>
+                  <select name="cat" id="cat" class="form-control" required>
+                    <option value="">Select</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="ese">End Semester</option>
+                  </select>
+                </div>
+                <div
+                  class="
+                    text-center text-lg-start
+                    
+                    pt-2
+                    d-flex
+                    justify-content-center
+                  "
+                >
+
+                {% comment %} roll number {% endcomment %}
+                <input type="hidden" name="roll_number" value="{{ roll_number }}">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    Fetch
+                  </button>
+                </div>
+              </div>
+            </form>
+            <p class="text-center">{{ Data }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class=" {{ show }}">
+        <div class="container-fluid ">
+            <div class="row d-flex justify-content-center align-items-center mt-3">
+              <div class=" col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+          
+            <table class="bg-white table table-hover" id="marks" border="2">
+              <thead >
+                <tr class="">
+                  <th colspan="3" scope="col" >
+                      <div class="row">
+                            <div class="col text-end">
+                                Name :
+                            </div>
+                            <div class="col fw-bold">{{ name.name }}</div>
+                      </div>
+                      <div class="row">
+                        <div class="col text-end">
+                            Roll Number :
+                        </div>
+                        <div class="col fw-bold">{{ roll_number.roll_number }}</div>
+                      </div>
+                      <div class="row">
+                        <div class="col text-end">
+                            Semester :
+                        </div>
+                        <div class="col fw-bold">{{ semester.semester }}</div>
+                      </div>
+                      <div class="row">
+                        <div class="col text-end">
+                            EXAM :
+                        </div>
+                        <div class="col fw-bold">{{ exam }}</div>
+                      </div>
+
+                    </th>
+                </tr>
+                <tr class="table-dark text-center">
+                  <th scope="col">Subject Name</th>
+                  <th scope="col">Mark</th>
+                  <th scope="col">Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for sub,mark in sub_marks.items %}
+                <tr class="text-center">
+                  <th scope="row ">{{ sub }}</th>
+                  <td>{{ mark }}</td>
+                  {% if mark > 50 %}
+                  <td name="Pass">Pass</td>
+                  {% else %}
+                  <td name="Fail">Fail</td>
+                  {% endif %}
+                </tr>
+              {% endfor %}
+                <tr class="text-center h5 fw-bold " style="background-color:#ffb31a;">
+                  <td colspan="3">
+                      Attendance : <span>{{ attendance }}</span>
+                  </td>
+                  
+                </tr>
+                
+              </tbody>
+                </div>
+            </div>  
+        </div>
+      </table>
+    </section>
+
+{% comment %} <section class="vh-100">
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <div class="form-inline">
+                 <form action="{% url 'fetch_marks' %}" method="post">
+                    
+
+
+
+                </form> 
+            </div>
+        </div>
+    </div>
+</section> {% endcomment %}
+
+{% endblock body %}
+
+{% block script %}
+<script type="text/javascript">
+    var myTabs = document.getElementsByName('Pass');
+    myTabs.forEach(element => element.setAttribute("class","fw-bold text-success"));
+    
+    myTabs = document.getElementsByName('Fail');
+    myTabs.forEach(element => element.setAttribute("class","fw-bold text-danger"));
+    
+</script>
+{% endblock script %}

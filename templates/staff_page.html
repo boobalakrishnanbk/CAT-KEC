@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %} upload {% endblock title %} 
+
+{% block body %}
+
+
+{% include "navbar.html" %}
+
+<div class="container">
+
+  <button
+    type="button"
+    class="btn btn-primary m-3"
+    data-mdb-toggle="modal"
+    data-mdb-target="#mark_modal"
+  >
+    upload mark list
+  </button>
+
+  <div
+    class="modal fade"
+    id="mark_modal"
+    tabindex="-1"
+    aria-labelledby="mark_modal_title"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="mark_modal_title">Upload Mark List</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-mdb-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form action="{% url 'staff' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="file_type" value="mark" >
+            
+              <label class="form-label mt-2 fw-bold" for="semester"
+              >Select Semester</label
+            >
+            <select name="semester" id="semester" class="form-control" required>
+              <option value="">Select</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+
+            <label class="form-label mt-2 fw-bold" for="cat"
+            >Select CAT</label
+          >
+            <select name="cat" id="cat" class="form-control" required>
+              <option value="">Select</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              
+            </select>
+
+            <label class="form-label mt-2 fw-bold" for="customFile"
+              >Upload Mark</label
+            >
+
+            <input type="file" accept=".xls,.xlsx" class="form-control" name="mark_file" id="customFile" required/>
+
+            <div class="m-2">
+              <input type="submit" value="submit" class="btn btn-primary" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- css -->
+    <link rel="stylesheet" href="../static/css/mdb.min.css" />
+    <title> </title>
+  </head>
+  <body style="background-color: #ECEFF1;">
+    <section class="">
+      <div class="container-fluid ">
+        <div class="row d-flex justify-content-center align-items-center mt-5">
+          <div class="card p-4 col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+            <form action="#" method="POST">
+              <div class="divider d-flex align-items-center my-4">
+                <p class="text-center h3 fw-bold mx-3 mb-0">Select Criteria</p>
+              </div>
+              <div class="row">
+                <!-- Semester input -->
+                <div class="form col-md-6 mb-4">
+                  <label class="form-label" for="semester"
+                    >Select Semester</label
+                  >
+                  <select
+                    name="semester"
+                    id="semester"
+                    class="form-control"
+                    required
+                  >
+                    <option value="">Select</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                  </select>
+                </div>
+
+                <!-- Cat input -->
+                <div class="form col-md-6 ms-auto mb-3">
+                  <label class="form-label" for="cat">Select CAT/ESE</label>
+                  <select name="cat" id="cat" class="form-control" required>
+                    <option value="">Select</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="ese">End Semester</option>
+                  </select>
+                </div>
+                <div
+                  class="
+                    text-center text-lg-start
+                    mt-2
+                    pt-2
+                    d-flex
+                    justify-content-center
+                  "
+                >
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    Fetch
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-4 ">
+        <div class="container-fluid ">
+            <div class="row d-flex justify-content-center align-items-center mt-5">
+              <div class=" col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+          
+            <table class="bg-white table table-hover" id="marks" border="2">
+              <thead >
+                <tr class="">
+                  <th colspan="3" scope="col" >
+                      <div class="row">
+                            <div class="col text-end">
+                                Name :
+                            </div>
+                            <div class="col h5">BK</div>
+                      </div>
+                      <div class="row">
+                        <div class="col text-end">
+                            Roll Number :
+                        </div>
+                        <div class="col h5">1sr004</div>
+                      </div>
+                      <div class="row">
+                        <div class="col text-end">
+                            Semester :
+                        </div>
+                        <div class="col h5">5</div>
+                      </div>
+
+                    </th>
+                </tr>
+                <tr class="table-dark">
+                  <th scope="col">Subject Name</th>
+                  <th scope="col">Mark</th>
+                  <th scope="col">Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row text-center">Math</th>
+                  <td>80.0</td>
+                  <td name="Pass">Pass</td>
+                </tr>
+                <tr>
+                  <th scope="row text-center">Math</th>
+                  <td>80.0</td>
+                  <td name="Pass">Pass</td>
+                </tr>
+                <tr>
+                  <th scope="row text-center">Math</th>
+                  <td>80.0</td>
+                  <td name="Fail">Fail</td>
+                </tr>
+                <tr>
+                  <th scope="row text-center">Math</th>
+                  <td>80.0</td>
+                  <td name="Pass">Pass</td>
+                </tr>
+                <tr class="text-center h5 table-info">
+                  <td colspan="3">
+                      Attendance : <span>80.0%</span>
+                  </td>
+                  
+                </tr>
+                
+              </tbody>
+                </div>
+            </div>  
+        </div>
+      </table>
+    </section>
+
+    <!--scripts -->
+    <script src="../static/js/mdb.min.js"></script>
+    <script type="text/javascript">
+        var myTabs = document.getElementsByName('Pass');
+        myTabs.forEach(element => element.setAttribute("class","text-success"));
+        
+        myTabs = document.getElementsByName('Fail');
+        myTabs.forEach(element => element.setAttribute("class","text-danger"));
+        
+    </script>
+    
+  </body>
+</html>
