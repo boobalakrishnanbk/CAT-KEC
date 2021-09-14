@@ -13,7 +13,8 @@ def staff(request):
     if request.method == 'POST':
         if request.POST['file_type'] == "mark" and request.POST:
             mark_file = request.FILES['mark_file']
-            data_obj = importMark(mark_file, request)
+            if Mark.objects.filter(semester=request.POST['semester'],cat=request.POST['cat']).count()>1:
+                data_obj = importMark(mark_file, request)
            
     return render(request, 'staff_page.html', {})
 
@@ -68,7 +69,8 @@ def fetch_marks(request):
             subs_marks = {}
             for i in marks:
                 if not i.subject_name == "ATT":
-                    subs_marks[i.subject_name] = i.mark
+                    if not i.mark == None:
+                        subs_marks[i.subject_name] = i.mark
                 else:
                     att = i.mark
             return render(request, 'show.html', {
