@@ -10,11 +10,16 @@ from openpyxl import Workbook
 # Create your views here.
 @login_required(login_url='/login/')
 def staff(request):
+
     if request.method == 'POST':
         if request.POST['file_type'] == "mark" and request.POST:
             mark_file = request.FILES['mark_file']
-            if Mark.objects.filter(semester=request.POST['semester'],cat=request.POST['cat']).count()>1:
-                data_obj = importMark(mark_file, request)
+            # print(Mark.objects.filter(semester=request.POST['semester'],cat=request.POST['cat']).count())
+            if Mark.objects.filter(semester=request.POST['semester'],cat=request.POST['cat']).count()==0:
+                importMark(mark_file, request)
+            else:
+                Mark.objects.filter(semester=request.POST['semester'],cat=request.POST['cat']).delete()
+                importMark(mark_file, request)
            
     return render(request, 'staff_page.html', {})
 
@@ -26,6 +31,7 @@ def importMark(mark_file, request):
     worksheet = workbook.get_sheet_by_name(first_sheet)
     students = []
     marks = []
+    # if Mark.objects.filter(cat=request.POST['cat'],semester=request.POST['semester']).distinct().count()==0:
     for row in worksheet.iter_rows(min_row=2, max_row=worksheet.max_row):
         roll_no = row[0].value
         name = row[1].value
@@ -55,14 +61,27 @@ def home(request):
 
 
 def studentLogin(request):
+    error = False   
+    data = {'semester':[],'cat':[]}
+    
+    mark =  Mark.objects.all()
+    data['semester'] = mark.values('semester').distinct()
+    data['cat'] = mark.values('cat').distinct()
+
     if request.POST['phone'] and request.POST['roll_number']:
         marks = Mark.objects.filter(roll_number=request.POST['roll_number'].upper(),phone=request.POST['phone']).count()
         if marks>1:
-            return render(request, 'show.html', {"roll_number":request.POST['roll_number'],"show":"d-none",})
-
-    return render(request, 'home.html', {})
+            return render(request, 'show.html', {"roll_number":request.POST['roll_number'],"show":"d-none",'data':data})
+    else:
+        error = True
+    return render(request, 'home.html', {'error':True,'data':data})
 
 def fetch_marks(request):
+
+    data = {'semester':[],'cat':[]}
+    mark =  Mark.objects.all()
+    data['semester'] = mark.values('semester').distinct()
+    data['cat'] = mark.values('cat').distinct()
     if request.POST['semester'] and request.POST['cat']:
         marks = Mark.objects.filter(roll_number=request.POST['roll_number'].upper(),semester=request.POST['semester'],cat=request.POST['cat'])
         if marks.count()>0:
@@ -73,23 +92,28 @@ def fetch_marks(request):
                         subs_marks[i.subject_name] = i.mark
                 else:
                     att = i.mark
+
             return render(request, 'show.html', {
                 "roll_number":request.POST['roll_number'],
                 "show":"",
                 "name":marks.values("name").distinct()[0],
-                "roll_number":marks.values("roll_number").distinct()[0],
+                # "roll_number":marks.values("roll_number").distinct()[0],
                 "semester":marks.values("semester").distinct()[0],
                 "exam": marks.values("cat")=="ese" and "End Semester Examination" or ("CAT - "+str(marks.values("cat").distinct()[0]['cat'])),
                 "sub_marks":subs_marks,
                 "attendance":att,
-                "Data":"",
+                "data":data,
             })
 
         else:
+            data = {'semester':[],'cat':[]}
+            mark =  Mark.objects.all()
+            data['semester'] = mark.values('semester').distinct()
+            data['cat'] = mark.values('cat').distinct()
             return render(request, 'show.html', {
                 "roll_number":request.POST['roll_number'],
                 "show":"d-none",
-                "Data":"Sorry! The data was not yet uploaded by the Faculty."
+                'data':data
             })
 
     

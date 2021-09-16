@@ -11,7 +11,7 @@ class Mark(models.Model):
 
     mark = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)],null=True)
     semester = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)],)
-    cat = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(3)],)
+    cat = models.CharField(max_length=20)
 
     def __str__(self):
         return str(self.roll_number) + "- Semester : " + str(self.semester) + " - CAT :" + str(self.cat) + " Subject : " + str(self.subject_name)

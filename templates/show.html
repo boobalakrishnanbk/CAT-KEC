@@ -12,7 +12,7 @@
 
 <section class="">
       <div class="container-fluid ">
-        <div class="row d-flex justify-content-center align-items-center">
+        <div class="row d-flex justify-content-center align-items-center p-2">
           <div class="card mt-2 p-2 col-md-8 col-lg-6 col-xl-4 offset-xl-1">
             <form action="{% url 'fetch_marks' %}" method="post">
             {% csrf_token %}
@@ -32,16 +32,9 @@
                     required
                   >
                     <option value="">Select</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
+                    {% for i in data.semester %}
+                    <option value="{{ i.semester }}">{{ i.semester }}</option>
+                    {% endfor %}
                   </select>
                 </div>
 
@@ -50,10 +43,9 @@
                   <label class="form-label" for="cat">Select CAT/ESE</label>
                   <select name="cat" id="cat" class="form-control" required>
                     <option value="">Select</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="ese">End Semester</option>
+                    {% for i in data.cat %}
+                    <option value="{{ i.cat }}">{{ i.cat }}</option>
+                    {% endfor %}
                   </select>
                 </div>
                 <div
@@ -134,12 +126,25 @@
                   {% endif %}
                 </tr>
               {% endfor %}
-                <tr class="text-center h5 fw-bold " style="background-color:#ffb31a;">
-                  <td colspan="3">
-                      Attendance : <span>{{ attendance }}</span>
-                  </td>
+              {% if not exam == "End Semester Exam"  %}
+                  <tr class="text-center h5 fw-bold " style="background-color:#ffb31a;">
+                    <td colspan="3">
+                        Attendance : <span>{{ attendance }}</span>
+                    </td>
+                  </tr>
+              {% else %}
+                  <tr class="text-center h5 fw-bold " style="background-color:#ffb31a;">
+                    <td colspan="3">
+                        GPA : <span>{{ attendance }}</span>
+                    </td>
+                  </tr>
+                  <tr class="text-center h5 fw-bold " style="background-color:#ffb31a;">
+                    <td colspan="3">
+                        CGPA : <span>{{ attendance }}</span>
+                    </td>
+                  </tr>
+              {% endif %}
                   
-                </tr>
                 
               </tbody>
                 </div>

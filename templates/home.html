@@ -29,25 +29,25 @@
               <label class="form-label" for="roll_number">Roll Number</label>
             <div class="form-outline mb-4">
               <input type="text" id="roll_number" class="form-control form-control-lg" name="roll_number"
-                placeholder="Enter Roll number" autocomplete="on"/>
+                placeholder="Enter Roll number" autocomplete="on" required/>
             </div>
   
             <!-- Password input -->
               <label class="form-label" for="phone_id">Mobile Number</label>
             <div class="form-outline mb-3">
-              <input type="password" id="phone_id" class="form-control form-control-lg" name="phone"
-                 autocomplete="on" />
+              <input type="password" id="phone_id" class="form-control form-control-lg" name="phone" placeholder="Enter Mobile number" onkeypress="return (event.charCode > 47 && event.charCode < 58) || (event.charCode==44)"
+                 autocomplete="on" required/>
             </div>
 
-            {% if messages.errors %}
-                <div class="alert alert-danger text-center py-1">
-                    <p>Roll number and Phone Number didn't Match
+            {% if error %}
+                <div >
+                    <p class="alert alert-danger text-center p-1">Roll number and Phone Number didn't Match
                    </p>
                 </div>
             {% endif %}
   
             
-            <div class="text-center text-lg-start mt-4 pt-2">
+            <div class="text-center text-lg-start mt-3 pt-2">
               <button type="submit" class="btn btn-primary btn-lg"
                 style="padding-left: 2.5rem; padding-right: 2.5rem;">Get Marks</button>
               
