@@ -9,7 +9,7 @@ class Mark(models.Model):
     subject_name = models.CharField(max_length=30,)
 
 
-    mark = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)],null=True)
+    mark = models.CharField(max_length=20, null= True)
     semester = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)],)
     cat = models.CharField(max_length=20)
 

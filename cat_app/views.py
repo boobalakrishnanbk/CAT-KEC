@@ -92,17 +92,32 @@ def fetch_marks(request):
                         subs_marks[i.subject_name] = i.mark
                 else:
                     att = i.mark
+            try:
+                val = marks.values("cat").distinct()[0]['cat']
+                cgpa = 0
+                gpa= 0
+                for i in marks:
+                    if not i.subject_name == "GPA":
+                        if not i.mark == None:
+                            gpa = i.mark
+                    elif not i.subject_name == "CGPA":
+                        if not i.mark == None:
+                            cgpa = i.mark
+                    
+            except ValueError:
+                pass
 
             return render(request, 'show.html', {
                 "roll_number":request.POST['roll_number'],
                 "show":"",
                 "name":marks.values("name").distinct()[0],
-                # "roll_number":marks.values("roll_number").distinct()[0],
                 "semester":marks.values("semester").distinct()[0],
                 "exam": marks.values("cat")=="ese" and "End Semester Examination" or ("CAT - "+str(marks.values("cat").distinct()[0]['cat'])),
                 "sub_marks":subs_marks,
                 "attendance":att,
                 "data":data,
+                "gpa":gpa,
+                "cgpa":cgpa,
             })
 
         else:
