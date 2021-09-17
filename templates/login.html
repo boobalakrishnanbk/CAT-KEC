@@ -6,15 +6,14 @@
 
 {% block body %}
 {% include "navbar.html" %}
-    <div class="container-fluid h-custom">
-      <div class="row d-flex justify-content-center align-items-center mt-5">
+    <div class="container-fluid">
+      <div class="row d-flex justify-content-center align-items-center mt-md-5">
         <div class="col-md-9 col-lg-6 col-xl-5">
           <img src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-login-form/draw2.png" class="img-fluid"
             alt="Sample image">
         </div>
-        <div class="card p-3 col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-          <div class="">
-          <form action="{% url 'login' %}" method="POST" class="">
+        <div class=" col-md-8 col-lg-6 col-xl-4 offset-xl-1 m-3">
+          <form action="{% url 'login' %}" method="POST" class="card p-3">
 
             {% csrf_token %}
   
@@ -30,7 +29,7 @@
             </div>
   
             <!-- Password input -->
-            <div class="form-outline mb-3">
+            <div class="form-outline mb-0">
               <input type="password" id="id_password" class="form-control form-control-lg" name="password"
                 placeholder="Enter password" autocomplete="on"/>
               <label class="form-label" for="id_password">Password</label>

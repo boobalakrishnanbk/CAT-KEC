@@ -16,12 +16,12 @@
           <img src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-login-form/draw2.png" class="img-fluid"
             alt="Sample image">
         </div>
-        <div class="p-3 col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+        <div class=" col-md-8 col-lg-6 col-xl-4 offset-xl-1 m-3">
           <form action="{% url 'student_login' %}" method="POST"class="card p-3">
 
             {% csrf_token %}
   
-            <div class="divider d-flex align-items-center my-4">
+            <div class="divider d-flex align-items-center my-2">
               <p class="text-center h1 fw-bold mx-3 mb-0"></p>
             </div>
   
@@ -34,7 +34,7 @@
   
             <!-- Password input -->
               <label class="form-label" for="phone_id">Mobile Number</label>
-            <div class="form-outline mb-3">
+            <div class="form-outline mb-0">
               <input type="password" id="phone_id" class="form-control form-control-lg" name="phone" placeholder="Enter Mobile number" onkeypress="return (event.charCode > 47 && event.charCode < 58) || (event.charCode==44)"
                  autocomplete="on" required/>
             </div>

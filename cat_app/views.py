@@ -77,7 +77,7 @@ def studentLogin(request):
     return render(request, 'home.html', {'error':True,'data':data})
 
 def fetch_marks(request):
-
+    att = ""
     data = {'semester':[],'cat':[]}
     mark =  Mark.objects.all()
     data['semester'] = mark.values('semester').distinct()
@@ -85,34 +85,51 @@ def fetch_marks(request):
     if request.POST['semester'] and request.POST['cat']:
         marks = Mark.objects.filter(roll_number=request.POST['roll_number'].upper(),semester=request.POST['semester'],cat=request.POST['cat'])
         if marks.count()>0:
+            gpa= 0
+            cgpa = 0
             subs_marks = {}
-            for i in marks:
-                if not i.subject_name == "ATT":
-                    if not i.mark == None:
-                        subs_marks[i.subject_name] = i.mark
-                else:
-                    att = i.mark
             try:
-                val = marks.values("cat").distinct()[0]['cat']
+                int(marks.values("cat").distinct()[0]['cat'])
+                for i in marks:
+                    if not i.subject_name == "ATT":
+                        if not i.mark == None:
+                            remark = []
+                            remark.append(int(i.mark))
+                            if int(i.mark)>=50:remark.append("Pass")
+                            else: remark.append("Fail")
+                            subs_marks[i.subject_name] = remark
+                    else:
+                            att = i.mark
+                        
+                
+            except ValueError:
                 cgpa = 0
                 gpa= 0
                 for i in marks:
-                    if not i.subject_name == "GPA":
+                    if i.subject_name == "Gpa":
                         if not i.mark == None:
                             gpa = i.mark
-                    elif not i.subject_name == "CGPA":
+                            
+                    elif i.subject_name == "Cgpa":
                         if not i.mark == None:
                             cgpa = i.mark
+                            
+                    else:
+                        if not i.mark == None:
+                            remark = []
+                            remark.append(i.mark)
+                            remark.append("Pass")
+                            subs_marks[i.subject_name] = remark
                     
-            except ValueError:
-                pass
+                
+            exam = marks.values("cat").distinct()[0]
 
             return render(request, 'show.html', {
                 "roll_number":request.POST['roll_number'],
                 "show":"",
                 "name":marks.values("name").distinct()[0],
                 "semester":marks.values("semester").distinct()[0],
-                "exam": marks.values("cat")=="ese" and "End Semester Examination" or ("CAT - "+str(marks.values("cat").distinct()[0]['cat'])),
+                "exam": exam['cat']=="End Semester Exam" and "End Semester Examination" or ("CAT - "+str(marks.values("cat").distinct()[0]['cat'])),
                 "sub_marks":subs_marks,
                 "attendance":att,
                 "data":data,

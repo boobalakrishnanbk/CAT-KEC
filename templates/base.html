@@ -4,19 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content=" initial-scale=1.0">
 
 
     <!-- css -->
     <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
     <title>
         CAT | {% block title %} {% endblock %}
     </title> 
 </head>
-<body >
+<body style="
+    background: linear-gradient(to top right, #33ccff 0%, #ff99cc 100%) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;" >
 
-    <div class="image">
+    <div >
     {% block body %}
     
     {% endblock %}

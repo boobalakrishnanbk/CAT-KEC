@@ -58,7 +58,6 @@
                   "
                 >
 
-                {% comment %} roll number {% endcomment %}
                 <input type="hidden" name="roll_number" value="{{ roll_number }}">
                   <button type="submit" class="btn btn-primary btn-lg">
                     Fetch
@@ -75,9 +74,9 @@
     <section class=" {{ show }}">
         <div class="container-fluid ">
             <div class="row d-flex justify-content-center align-items-center mt-3">
-              <div class=" col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+              <div class=" col-md-8 col-lg-6 col-xl-4 offset-xl-1 col-sm-10 table-responsive-sm">
           
-            <table class="bg-white table table-hover" id="marks" border="2">
+            <table class="bg-white table table-hover" id="marks" border="2" class="">
               <thead >
                 <tr class="">
                   <th colspan="3" scope="col" >
@@ -91,7 +90,7 @@
                         <div class="col text-end">
                             Roll Number :
                         </div>
-                        <div class="col fw-bold">{{ roll_number.roll_number }}</div>
+                        <div class="col fw-bold">{{ roll_number }}</div>
                       </div>
                       <div class="row">
                         <div class="col text-end">
@@ -118,27 +117,23 @@
               {% for sub,mark in sub_marks.items %}
                 <tr class="text-center">
                   <th scope="row ">{{ sub }}</th>
-                  <td>{{ mark }}</td>
-                  {% if mark > 50 %}
-                  <td name="Pass">Pass</td>
-                  {% else %}
-                  <td name="Fail">Fail</td>
-                  {% endif %}
+                  <td class="fw-bold">{{ mark.0 }}</td>
+                  <td name="{{ mark.1 }}">{{ mark.1 }}</td>
                 </tr>
               {% endfor %}
-              {% if not exam == "End Semester Exam"  %}
-                  <tr class="text-center h5 fw-bold " style="background-color:#ffb31a;">
+              {% if not exam == "End Semester Examination"  %}
+                  <tr class="text-center h5 fw-bold text-success" >
                     <td colspan="3">
                         Attendance : <span>{{ attendance }}</span>
                     </td>
                   </tr>
               {% else %}
-                  <tr class="text-center h5 fw-bold " style="background-color:#ffb31a;">
+                  <tr class="text-center h5 fw-bold text-success" >
                     <td colspan="3">
                         GPA : <span>{{ gpa }}</span>
                     </td>
                   </tr>
-                  <tr class="text-center h5 fw-bold " style="background-color:#ffb31a;">
+                  <tr class="text-center h5 fw-bold text-success" >
                     <td colspan="3">
                         CGPA : <span>{{ cgpa }}</span>
                     </td>
@@ -152,21 +147,6 @@
         </div>
       </table>
     </section>
-
-{% comment %} <section class="vh-100">
-    <div class="container">
-        <div class="d-flex justify-content-center">
-            <div class="form-inline">
-                 <form action="{% url 'fetch_marks' %}" method="post">
-                    
-
-
-
-                </form> 
-            </div>
-        </div>
-    </div>
-</section> {% endcomment %}
 
 {% endblock body %}
 
