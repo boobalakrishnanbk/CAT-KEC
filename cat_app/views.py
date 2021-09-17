@@ -64,26 +64,23 @@ def studentLogin(request):
     error = False   
     data = {'semester':[],'cat':[]}
     
-    mark =  Mark.objects.all()
+    mark =  Mark.objects.filter(roll_number = request.POST['roll_number'].upper())
     data['semester'] = mark.values('semester').distinct()
     data['cat'] = mark.values('cat').distinct()
 
     if request.POST['phone'] and request.POST['roll_number']:
-        marks = Mark.objects.filter(roll_number=request.POST['roll_number'].upper(),phone=request.POST['phone']).count()
+        marks = Mark.objects.filter(roll_number=request.POST['roll_number'].upper().strip(),phone=request.POST['phone'].strip()).count()
         if marks>1:
-            return render(request, 'show.html', {"roll_number":request.POST['roll_number'],"show":"d-none",'data':data})
+            return render(request, 'show.html', {"roll_number":request.POST['roll_number'],"phone":request.POST['phone'],"show":"d-none",'data':data})
     else:
         error = True
     return render(request, 'home.html', {'error':True,'data':data})
 
 def fetch_marks(request):
     att = ""
-    data = {'semester':[],'cat':[]}
-    mark =  Mark.objects.all()
-    data['semester'] = mark.values('semester').distinct()
-    data['cat'] = mark.values('cat').distinct()
+    
     if request.POST['semester'] and request.POST['cat']:
-        marks = Mark.objects.filter(roll_number=request.POST['roll_number'].upper(),semester=request.POST['semester'],cat=request.POST['cat'])
+        marks = Mark.objects.filter(roll_number=request.POST['roll_number'].upper(),phone=request.POST['phone'],semester=request.POST['semester'],cat=request.POST['cat'])
         if marks.count()>0:
             gpa= 0
             cgpa = 0
@@ -124,7 +121,14 @@ def fetch_marks(request):
                 
             exam = marks.values("cat").distinct()[0]
 
+            data = {'semester':[],'cat':[]}
+            mark =  Mark.objects.filter(roll_number=request.POST['roll_number'].upper())
+            data['semester'] = mark.values('semester').distinct()
+            data['cat'] = mark.values('cat').distinct()
+
+            print(data)
             return render(request, 'show.html', {
+                "phone":request.POST['phone'],
                 "roll_number":request.POST['roll_number'],
                 "show":"",
                 "name":marks.values("name").distinct()[0],
@@ -139,7 +143,7 @@ def fetch_marks(request):
 
         else:
             data = {'semester':[],'cat':[]}
-            mark =  Mark.objects.all()
+            mark =  Mark.objects.filter(roll_number=request.POST['roll_number'].upper())
             data['semester'] = mark.values('semester').distinct()
             data['cat'] = mark.values('cat').distinct()
             return render(request, 'show.html', {

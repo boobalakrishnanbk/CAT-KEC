@@ -59,6 +59,7 @@
                 >
 
                 <input type="hidden" name="roll_number" value="{{ roll_number }}">
+                <input type="hidden" name="phone" value="{{ phone }}">
                   <button type="submit" class="btn btn-primary btn-lg">
                     Fetch
                   </button>
@@ -128,12 +129,21 @@
                     </td>
                   </tr>
               {% else %}
-                  <tr class="text-center h5 fw-bold text-success" >
+
+              {% if gpa == " ---" %} 
+                  <tr class="text-center h5 fw-bold text-danger " >
+              {% else %} 
+                  <tr class="text-center h5 fw-bold text-success " >
+              {% endif %}
                     <td colspan="3">
                         GPA : <span>{{ gpa }}</span>
                     </td>
                   </tr>
-                  <tr class="text-center h5 fw-bold text-success" >
+              {% if cgpa == " ---*" %} 
+                  <tr class="text-center h5 fw-bold text-danger " >
+              {% else %} 
+                  <tr class="text-center h5 fw-bold text-success " >
+              {% endif %}
                     <td colspan="3">
                         CGPA : <span>{{ cgpa }}</span>
                     </td>
