@@ -57,9 +57,6 @@
                     justify-content-center
                   "
                 >
-
-                <input type="hidden" name="roll_number" value="{{ roll_number }}">
-                <input type="hidden" name="phone" value="{{ phone }}">
                   <button type="submit" class="btn btn-primary btn-lg">
                     Fetch
                   </button>
@@ -71,7 +68,15 @@
         </div>
       </div>
     </section>
-    
+    {% if error %}
+    <div class="container-fluid ">
+      <div class="row d-flex justify-content-center align-items-center mt-3">
+        <div class=" col-md-8 col-lg-6 col-xl-4 offset-xl-1 col-sm-10 table-responsive-sm">
+          <p class="alert alert-danger text-center p-1">{{ error }}</p>
+        </div>
+      </div>
+    </div>
+    {% endif %}
     <section class=" {{ show }}">
         <div class="container-fluid ">
             <div class="row d-flex justify-content-center align-items-center mt-3">
