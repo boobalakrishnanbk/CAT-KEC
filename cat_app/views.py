@@ -14,7 +14,6 @@ def staff(request):
     if request.method == 'POST':
         if request.POST['file_type'] == "mark" and request.POST:
             mark_file = request.FILES['mark_file']
-            # print(Mark.objects.filter(semester=request.POST['semester'],cat=request.POST['cat']).count())
             if Mark.objects.filter(semester=request.POST['semester'],cat=request.POST['cat']).count()==0:
                 importMark(mark_file, request)
             else:
@@ -129,7 +128,6 @@ def fetch_marks(request):
             data['semester'] = mark.values('semester').distinct()
             data['cat'] = mark.values('cat').distinct()
 
-            print(data)
             return render(request, 'show.html', {
                 "phone":request.POST['phone'],
                 "roll_number":request.POST['roll_number'],
