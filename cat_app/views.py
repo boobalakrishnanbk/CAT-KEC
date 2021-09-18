@@ -97,8 +97,6 @@ def fetch_marks(request):
                             subs_marks[i.subject_name] = remark
                     else:
                             att = i.mark
-                        
-                
             except ValueError:
                 cgpa = 0
                 gpa= 0
@@ -115,7 +113,12 @@ def fetch_marks(request):
                         if not i.mark == None:
                             remark = []
                             remark.append(i.mark)
-                            remark.append("Pass")
+                            passed = ['S','A','B','C','D','E','O','A+','A','B','B+']
+                            failed = ['RA','WH','W','AB']
+                            if i.mark in passed:
+                                remark.append("Pass")
+                            else:
+                                remark.append("Fail")
                             subs_marks[i.subject_name] = remark
                     
                 

@@ -5,7 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Mark(models.Model):
     roll_number = models.CharField(max_length=10,)
     name = models.CharField(max_length=30,)
-    phone = models.IntegerField()
+    phone = models.IntegerField(null=True)
     subject_name = models.CharField(max_length=30, null=False)
 
 
