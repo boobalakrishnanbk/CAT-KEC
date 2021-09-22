@@ -9,10 +9,11 @@
 
     <!-- css -->
     <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/datatables.min.css' %}" />
     <title>
         CAT | {% block title %} {% endblock %}
     </title> 
-    
+    <script src="{% static 'js/jQuery.js' %}"></script>
 </head>
 <body style="
     background: linear-gradient(to top right, #33ccff 0%, #ff99cc 100%) no-repeat center center fixed; 
@@ -27,8 +28,11 @@
     {% endblock %}
     </div>
     <!--scripts -->
+    
     <script src="{% static 'js/mdb.min.js' %}"></script>
-    <script src="{% static 'js/jQuery.js' %}"></script>
+    {% comment %} <script src="{% static 'js/jQuery.js' %}"></script> {% endcomment %}
+    <script src="{% static 'js/datatables.min.js' %}"></script>
+    <script src="{% static 'js/DT_buttons.min.js' %}"></script>
     {% block script %}
     
     {% endblock %}

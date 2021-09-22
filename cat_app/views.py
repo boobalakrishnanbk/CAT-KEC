@@ -11,6 +11,17 @@ from openpyxl import Workbook
 @login_required(login_url='/login/')
 def staff(request):
     error = False
+    result = Mark.objects.filter(semester=7,cat=1).values('roll_number').distinct()
+    students_roll_number = result
+    students_details = {}
+    subjects = Mark.objects.filter(semester=7,cat=1).values('subject_name').distinct()
+    
+    criteria = {}
+    count = 0
+    for i in subjects:
+        criteria[i["subject_name"]] = count
+        count += 1
+    
     if request.method == 'POST':
         if request.POST['file_type'] == "mark" and request.POST:
             mark_file = request.FILES['mark_file']
@@ -19,8 +30,39 @@ def staff(request):
             else:
                 Mark.objects.filter(semester=request.POST['semester'],cat=request.POST['cat']).delete()
                 error = importMark(mark_file, request)
-
-    return render(request, 'staff_page.html', {"error":error})
+        if request.POST['file_type'] == "marks":
+            for student in students_roll_number:
+                result = Mark.objects.filter(semester=request.POST['semester'],cat=request.POST['cat'],roll_number=student['roll_number']).values().distinct()
+                detail = []
+                detail.append(["name",result[0]['name']])
+                count = 0
+                sample = criteria
+                t = {}
+                for i in criteria:
+                    if str(i) not in t.keys():
+                        t[i] = "-"
+                for mark in result:
+                    t[mark['subject_name']] =mark['mark']
+                detail.append(t)
+                students_details[student['roll_number']] = detail        
+        
+    
+        
+    data = {'semester':[],'cat':[]}
+    mark =  Mark.objects.all()
+    data['semester'] = mark.values('semester').distinct().order_by('semester')
+    data['cat'] = mark.values('cat').distinct().order_by('cat')
+    # print(*subjects)
+    return render(
+        request, 
+        'staff_page.html', 
+        {
+            "error":error,
+            "subjects":subjects,
+            "marks":students_details,
+            "data": data,
+        }
+    )
 
 
 # import to database - Mark
@@ -34,6 +76,10 @@ def importMark(mark_file, request):
             roll_no = row[0].value
             name = row[1].value
             phone = row[2].value
+            try:
+                phone = phone.replace(" ","")
+            except:
+                pass
             for i in range(4, worksheet.max_column,2):
                 mark = Mark()
                 mark.roll_number = roll_no
@@ -49,9 +95,7 @@ def importMark(mark_file, request):
             return "Successfully uploaded the marks for "  + " semsester " + request.POST['semester']+ " " + cat
         else:    
             return "Invalid Excel Format"
-        
-    except:
-        
+    except:    
         return "Invalid Excel Format"
     
 # homepage
