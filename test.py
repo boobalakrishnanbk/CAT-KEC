@@ -51,7 +51,7 @@ for row in old_file.iter_rows(min_row=2, max_row=old_file.max_row):
     count = 2
     sam = 0
     for col in range(2,old_file.max_column):
-        if not row[col].value == None:
+        if not row[col].value == "-":
             # subject - count
             cell = sheet.cell(row = temp_row_count, column = temp_column_count)
             title = (old_file[1])
@@ -64,4 +64,4 @@ for row in old_file.iter_rows(min_row=2, max_row=old_file.max_row):
     temp_row_count += 1
 
 # final creating excel sheet
-wb.save("/var/www/html/project/result-20210916T132001Z-001/result/mark(2020)_final_result.xlsx")
+wb.save("/var/www/html/project/result-20210916T132001Z-001/result/mark(2020)_re_result.xlsx")

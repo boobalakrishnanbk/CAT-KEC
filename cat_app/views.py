@@ -11,18 +11,22 @@ from openpyxl import Workbook
 @login_required(login_url='/login/')
 def staff(request):
     error = False
-    result = Mark.objects.filter(semester=7,cat=1).values('roll_number').distinct()
-    students_roll_number = result
-    students_details = {}
-    subjects = Mark.objects.filter(semester=7,cat=1).values('subject_name').distinct()
-    
-    criteria = {}
-    count = 0
-    for i in subjects:
-        criteria[i["subject_name"]] = count
-        count += 1
-    
+    criteria_error = False
+    subjects_hide = True
+    subjects = []
+    students_details = []
     if request.method == 'POST':
+        result = Mark.objects.filter(semester=request.POST['semester'],cat=request.POST['cat']).values('roll_number').distinct()
+        students_roll_number = result
+        students_details = {}
+        subjects = Mark.objects.filter(semester=request.POST['semester'],cat=request.POST['cat']).values('subject_name').distinct()
+    
+        criteria = {}
+        count = 0
+        for i in subjects:
+            criteria[i["subject_name"]] = count
+            count += 1
+        
         if request.POST['file_type'] == "mark" and request.POST:
             mark_file = request.FILES['mark_file']
             if Mark.objects.filter(semester=request.POST['semester'],cat=request.POST['cat']).count()==0:
@@ -32,11 +36,11 @@ def staff(request):
                 error = importMark(mark_file, request)
         if request.POST['file_type'] == "marks":
             for student in students_roll_number:
-                result = Mark.objects.filter(semester=request.POST['semester'],cat=request.POST['cat'],roll_number=student['roll_number']).values().distinct()
+                result = Mark.objects.filter(semester=request.POST['semester'],cat=request.POST['cat'],roll_number = student['roll_number']).values().distinct()
+
                 detail = []
                 detail.append(["name",result[0]['name']])
                 count = 0
-                sample = criteria
                 t = {}
                 for i in criteria:
                     if str(i) not in t.keys():
@@ -45,22 +49,28 @@ def staff(request):
                     t[mark['subject_name']] =mark['mark']
                 detail.append(t)
                 students_details[student['roll_number']] = detail        
-        
+            if students_roll_number.count() > 0:
+                criteria_error = False
+                subjects_hide = False
+            else:
+                subjects_hide = True
+                criteria_error = "Sorry! The selected criteria result was not yet uploaded. Please Choose other option"
     
-        
     data = {'semester':[],'cat':[]}
     mark =  Mark.objects.all()
     data['semester'] = mark.values('semester').distinct().order_by('semester')
     data['cat'] = mark.values('cat').distinct().order_by('cat')
-    # print(*subjects)
     return render(
         request, 
         'staff_page.html', 
         {
             "error":error,
+            "c_error":criteria_error,
             "subjects":subjects,
             "marks":students_details,
             "data": data,
+            "display":subjects_hide
+            
         }
     )
 
@@ -90,6 +100,7 @@ def importMark(mark_file, request):
                 mark.semester = request.POST['semester']
                 mark.cat = request.POST['cat']
                 marks.append(mark)
+        
         if Mark.objects.bulk_create(marks):
             cat = request.POST['cat']=="End Semester Exam" and "End Semester Examination" or ("CAT - "+request.POST['cat'])
             return "Successfully uploaded the marks for "  + " semsester " + request.POST['semester']+ " " + cat
