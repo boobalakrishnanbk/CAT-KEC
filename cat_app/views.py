@@ -139,17 +139,38 @@ def fetch_marks(request):
             gpa= 0
             cgpa = 0
             subs_marks = {}
-            try:
-                int(marks.values("cat").distinct()[0]['cat'])
-                for i in marks:
-                    if not i.subject_name == "ATT":
-                        if not i.mark == None:
-                            remark = []
+            for i in marks:
+                print(i.subject_name)
+                if not i.subject_name == "ATT":
+                    if not i.mark == None:
+                        remark = []
+                        try:
                             remark.append(int(i.mark))
                             if int(i.mark)>=50:remark.append("Pass")
                             else: remark.append("Fail")
                             subs_marks[i.subject_name] = remark
+                        except:
+                            remark.append(i.mark)
+                            remark.append("Fail")
+                            subs_marks[i.subject_name] = remark
                     else:
+                        att = i.mark
+            try:
+                if int(marks.values("cat").distinct()[0]['cat']):
+                    for i in marks:
+                        if not i.subject_name == "ATT":
+                            if not i.mark == None:
+                                remark = []
+                                try:
+                                    remark.append(int(i.mark))
+                                    if int(i.mark)>=50:remark.append("Pass")
+                                    else: remark.append("Fail")
+                                    subs_marks[i.subject_name] = remark
+                                except:
+                                    remark.append(i.mark)
+                                    remark.append("Fail")
+                                    subs_marks[i.subject_name] = remark
+                        else:
                             att = i.mark
             except ValueError:
                 cgpa = 0
